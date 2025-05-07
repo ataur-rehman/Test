@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Page</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="home-container">
+    <h1>Welcome to the Home Page!</h1>
+
+    <div class="theme-switcher">
+      <button id="themeToggle">🌙 Dark Mode</button>
+    </div>
+
+    <div class="profile-section">
+      <h2>User Profile</h2>
+      <div id="profileView">
+        <p>Name: <span id="profileName">John Doe</span></p>
+        <p>Email: user@example.com</p>
+        <button id="editProfile">Edit Profile</button>
+      </div>
+      <div id="profileEdit" style="display: none;">
+        <input type="text" id="editName" placeholder="New name">
+        <button id="saveProfile">Save</button>
+        <button id="cancelEdit">Cancel</button>
+      </div>
+    </div>
+
+    <div class="data-table">
+      <h2>User Activity</h2>
+      <input type="text" id="searchInput" placeholder="Search activities...">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Activity</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- Dynamic content -->
+        </tbody>
+      </table>
+    </div>
+
+    <button id="logoutButton">Log Out</button>
+  </div>
+
+  <script>
+    // Theme Toggle
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      const isDark = document.body.getAttribute("data-theme") === "dark";
+      document.body.setAttribute("data-theme", isDark ? "" : "dark");
+      localStorage.setItem("theme", isDark ? "light" : "dark");
+      document.getElementById("themeToggle").textContent =
+        isDark ? "🌙 Dark Mode" : "☀️ Light Mode";
+    });
+
+    // Profile Editing
+    document.getElementById("editProfile").addEventListener("click", () => {
+      document.getElementById("profileView").style.display = "none";
+      document.getElementById("profileEdit").style.display = "block";
+    });
+
+    document.getElementById("saveProfile").addEventListener("click", () => {
+      const newName = document.getElementById("editName").value;
+      if (newName.trim().length >= 3) {
+        document.getElementById("profileName").textContent = newName;
+        localStorage.setItem("userName", newName);
+      }
+      toggleEditMode();
+    });
+
+    document.getElementById("cancelEdit").addEventListener("click", toggleEditMode);
+
+    function toggleEditMode() {
+      document.getElementById("profileView").style.display = "block";
+      document.getElementById("profileEdit").style.display = "none";
+    }
+
+    // Data Table
+    const sampleData = [
+      { date: "2024-03-01", activity: "Login", status: "✅ Success" },
+      { date: "2024-03-02", activity: "Profile Update", status: "⚠️ Pending" },
+      { date: "2024-03-03", activity: "Password Change", status: "❌ Failed" }
+    ];
+
+    function populateTable(data) {
+      const tbody = document.getElementById("tableBody");
+      tbody.innerHTML = data.map(item => `
+        <tr>
+          <td>${item.date}</td>
+          <td>${item.activity}</td>
+          <td>${item.status}</td>
+        </tr>
+      `).join("");
+    }
+
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const filteredData = sampleData.filter(item =>
+        item.activity.toLowerCase().includes(searchTerm) ||
+        item.status.toLowerCase().includes(searchTerm)
+      );
+      populateTable(filteredData);
+    });
+
+    // Initial Load
+    window.addEventListener("load", () => {
+      // Theme
+      const savedTheme = localStorage.getItem("theme") || "light";
+      document.body.setAttribute("data-theme", savedTheme === "dark" ? "dark" : "");
+      document.getElementById("themeToggle").textContent =
+        savedTheme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
+
+      // Profile
+      const savedName = localStorage.getItem("userName");
+      if (savedName) {
+        document.getElementById("profileName").textContent = savedName;
+      }
+
+      // Table
+      populateTable(sampleData);
+
+      // Session Check
+      if (!sessionStorage.getItem("isAuthenticated")) {
+        window.location.href = "index.html";
+      }
+    });
+
+    // Logout
+    document.getElementById("logoutButton").addEventListener("click", () => {
+      sessionStorage.removeItem("isAuthenticated");
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+
+</html>

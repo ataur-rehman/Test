@@ -1,0 +1,129 @@
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: var(--bg-color, #f0f0f0);
+  color: var(--text-color, #333333);
+  transition: all 0.3s ease;
+}
+
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+}
+
+[data-theme="dark"] {
+  --bg-color: #1a1a1a;
+  --text-color: #ffffff;
+}
+
+.login-container,
+.home-container {
+  background-color: var(--bg-color);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+
+input {
+  width: 80%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.strength-meter {
+  height: 5px;
+  width: 80%;
+  margin: 0 auto 10px;
+  background: #ddd;
+}
+
+.strength-meter::before {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 0;
+  transition: width 0.3s;
+}
+
+.weak::before {
+  width: 33%;
+  background: red;
+}
+
+.medium::before {
+  width: 66%;
+  background: orange;
+}
+
+.strong::before {
+  width: 100%;
+  background: green;
+}
+
+.strength-text {
+  font-size: 12px;
+  margin: -5px 0 10px;
+}
+
+.profile-section {
+  border-top: 1px solid #eee;
+  margin-top: 20px;
+  padding-top: 20px;
+}
+
+#profileEdit input {
+  width: 70%;
+  margin-bottom: 10px;
+}
+
+.data-table {
+  margin-top: 30px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th,
+td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+#searchInput {
+  width: 80%;
+  margin-bottom: 15px;
+}
